@@ -168,14 +168,14 @@ namespace ReadingViewHook {
         if (headerContainer) {
             // add to topSpacer
             QHBoxLayout* layout = new QHBoxLayout(topSpacer);
-            layout->setContentsMargins(0, readingSettings.headerSpacerHeight, 0, 0);
+            layout->setContentsMargins(0, 0, 0, readingSettings.headerSpacerHeight);
             layout->addWidget(headerContainer, 1);
         }
 
         if (footerContainer) {
             // add to bottomSpacer
             QHBoxLayout* layout = new QHBoxLayout(bottomSpacer);
-            layout->setContentsMargins(0, 0, 0, readingSettings.footerSpacerHeight);
+            layout->setContentsMargins(0, readingSettings.footerSpacerHeight, 0, 0);
             layout->addWidget(footerContainer, 1);
         }
 

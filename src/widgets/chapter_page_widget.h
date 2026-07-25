@@ -25,7 +25,7 @@ public:
         bool shouldBeVisible = (currentPage >= 1 && totalPages >= 1 && currentPage <= totalPages);
 
         if (shouldBeVisible) {
-            textLabel->setText(QStringLiteral("%1/%2").arg(currentPage).arg(totalPages));
+            textLabel->setText(QStringLiteral("%1 OF %2").arg(currentPage).arg(totalPages));
         }
 
         if (shouldBeVisible != !isHidden()) {
