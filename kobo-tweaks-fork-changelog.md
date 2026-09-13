@@ -193,5 +193,4 @@ from sections 2–3 remain in effect.
 - `src/widgets/book_progress_widget.h` — guard + lazy min-width (sections 2, 3, 5)
 - `src/widgets/book_page_widget.h` — guard + lazy min-width (sections 2, 3, 5)
 - `src/widgets/book_time_widget.h` — guard + lazy min-width (sections 2, 3, 5)
-- `src/widgets/battery_widget.h` — lazy min-width via `QEvent::Show` (section 5)
 - `src/widgets/base/elided_label.h` — attempted change reverted to original (section 4)
