@@ -75,7 +75,7 @@ footprint.
 
 **Fix:** Added sizing to each widget's text label, based on the widest realistic
 value for that field. Initially implemented with `setFixedWidth()`, later changed by
-the user to `setMinimumWidth()` — same reflow protection, but allows the label to
+to `setMinimumWidth()` — same reflow protection, but allows the label to
 shrink to fit shorter content instead of always reserving the full sample width,
 removing unwanted dead space around shorter values. (Trade-off: with `setMinimumWidth`
 there is no upper cap, so a value exceeding the sample string would grow the widget
@@ -96,10 +96,6 @@ Alignment: page-count widgets (`book_page_widget.h`, `chapter_page_widget.h`) us
 `Qt::AlignLeft | Qt::AlignVCenter` so reserved slack trails after the text rather than
 floating between the preceding separator and the number. Progress/time widgets use
 `Qt::AlignCenter`.
-
-Also investigated but **not needed**: battery icon size (`battery_%1.png`,
-`battery_charging_%1.png`, `battery_charged.png`) was confirmed consistent at 26×26
-across all states — no shift risk from charger plug/unplug.
 
 ---
 
