@@ -5,16 +5,27 @@
 
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QFontMetrics>
 
 struct TwChapterProgressConfig : TwIconLabelConfig {};
 
 class TwChapterProgressWidget : public TwIconLabel {
     Q_OBJECT
 
+    bool widthInitialized = false;
+
 public:
     TwChapterProgressWidget(ReadingView* rdv, ReadingViewAdapters adapters, TwChapterProgressConfig config, QWidget* parent = nullptr) : TwIconLabel(rdv, adapters, config, parent) {}
 
     void onPageChanged() override {
+        if (!widthInitialized) {
+            QFontMetrics fm(textLabel->font());
+            int minWidth = fm.width(QStringLiteral("100%"));
+            textLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+            textLabel->setMinimumWidth(minWidth);
+            widthInitialized = true;
+        }
+
         if (!ReadingView_chapterCurrentPage || !ReadingView_chapterTotalPages) {
             return;
         }
@@ -25,7 +36,10 @@ public:
 
         if (shouldBeVisible) {
             int percentage = qBound(0, (currentPage - 1) * 100 / totalPages, 100);
-            textLabel->setText(QStringLiteral("%1%").arg(percentage));
+            QString newText = QStringLiteral("%1%").arg(percentage);
+            if (textLabel->text() != newText) {
+                textLabel->setText(newText);
+            }
         }
 
         if (shouldBeVisible != !isHidden()) {

@@ -5,16 +5,29 @@
 
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QFontMetrics>
 
 struct TwBookTimeConfig : TwIconLabelConfig {};
 
 class TwBookTimeWidget : public TwIconLabel {
     Q_OBJECT
 
+    bool widthInitialized = false;
+
 public:
     TwBookTimeWidget(ReadingView* rdv, ReadingViewAdapters adapters, TwBookTimeConfig config, QWidget* parent = nullptr) : TwIconLabel(rdv, adapters, config, parent) {}
 
     void onPageChanged() override {
+        if (!widthInitialized) {
+            QFontMetrics fm(textLabel->font());
+            int minWidth = fm.width(QStringLiteral("99h 59m"));
+            textLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+            textLabel->setMinimumWidth(minWidth);
+            textLabel->setFixedWidth(minWidth);
+            textLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+            widthInitialized = true;
+        }
+
         if (!ReadingView_hasValidReadingStats || !ReadingView_readingStats || !ReadingStats_restOfBookEstimate || !ReadingView_fullBookCurrentPage || !ReadingView_fullBookTotalPages) {
             return;
         }
@@ -50,7 +63,9 @@ public:
             text = QStringLiteral("%1m").arg(minutes);
         }
 
-        textLabel->setText(text);
+        if (textLabel->text() != text) {
+            textLabel->setText(text);
+        }
     }
 
 protected:
