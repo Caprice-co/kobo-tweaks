@@ -46,7 +46,8 @@ the displayed value had actually changed. `QLabel::setText()` triggers
 `updateGeometry()` internally even when the new text is identical to the old text,
 forcing a geometry recompute of the whole widget zone. On monochrome e-ink this
 recompute is visually imperceptible; on the Kaleido color panel it produces a visible
-flash and can shift widget positions.
+flash and can shift widget positions. Flash is how Kaleido panel work, current attempt to
+fix shifting position with each page turn.
 
 **Fix:** Added a change-detection guard before every `setText()` call, matching the
 pattern already used by `TwElidedLabel::setFullText()` for the title widgets:
@@ -61,7 +62,7 @@ Applied to: `chapter_progress_widget.h`, `chapter_page_widget.h`,
 `book_time_widget.h`. (`battery_widget.h` already had an equivalent guard and did not
 need this change.)
 
-**Result:** Remaining flicker/reposition was reduced to only the cases where the
+**Result:** Remaining reposition was reduced to only the cases where the
 displayed value's *text width* genuinely changes (e.g. page count going from 1 to 2
 digits) — a real, expected layout change rather than a bug.
 
@@ -92,10 +93,10 @@ Final sizing samples in use:
 | `book_progress_widget.h` | `"100%"` |
 | `battery_widget.h` (`levelLabel`) | `"100%"` |
 
-Alignment: page-count widgets (`book_page_widget.h`, `chapter_page_widget.h`) use
+Alignment was done as a personal preferences : page-count widgets (`book_page_widget.h`, `chapter_page_widget.h`) use
 `Qt::AlignLeft | Qt::AlignVCenter` so reserved slack trails after the text rather than
 floating between the preceding separator and the number. Progress/time widgets use
-`Qt::AlignCenter`.
+`Qt::AlignCenter`. 
 
 ---
 
@@ -178,7 +179,7 @@ synchronously rather than waiting for a page-turn event — the same lazy-init b
 was placed in an overridden `event()` handler, gated on `QEvent::Show`, which Qt
 guarantees fires only once the widget is fully constructed and visible.
 
-**Confirmed fixed** on-device: books open normally, and the flicker/reposition fixes
+**Confirmed fixed** on-device: books open normally, and the reposition fixes
 from sections 2–3 remain in effect.
 
 ---
