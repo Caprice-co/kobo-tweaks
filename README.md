@@ -1,3 +1,7 @@
+# 📢 [Click here to view the Fork Changelog (kobo-tweaks-fork-changelog.md)](kobo-tweaks-fork-changelog.md)
+---
+
+
 # Kobo Tweaks
 
 A beginner-friendly addon for customizing Kobo eReaders.
